@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-vuejs-masterclass-2024/node_modules
+3-masterclass/node_modules
 .DS_Store
 dist
 dist-ssr

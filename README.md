@@ -1,8 +1,16 @@
 # Vue Tutorials
 
-[Vue](https://vuejs.org/) Tutorials.
+[Vue.js](https://vuejs.org/) Tutorials.
+
+Recommended Order:
+
+1. [Fundamentals](./1-fundamentals)  
+2. [Components](./2-components)  
+3. [Master Class](./3-masterclass)  
 
 ## Pre-requisites
+
+Except for the [Fundamentals](./1-fundamentals) tutorial which has no pre-requisites:
 
 * [Node.js](https://nodejs.org/en)
 
