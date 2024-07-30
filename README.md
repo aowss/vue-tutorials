@@ -10,9 +10,8 @@ Recommended Order:
 
 ## Pre-requisites
 
-Except for the [Fundamentals](./1-fundamentals) tutorial which has no pre-requisites:
-
-* [Node.js](https://nodejs.org/en)
+* [Node.js](https://nodejs.org/en)  
+  This will install [npm](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager) as the package manager
 
 ## Choices
 

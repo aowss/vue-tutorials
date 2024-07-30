@@ -1,0 +1,264 @@
+:toc:
+:source-highlighter: highlightjs
+:imagesdir: res
+:icons: font
+
+= `Vue.js` Fundamentals
+
+We will use Vue 3's https://vuejs.org/guide/extras/composition-api-faq.html[Composition API].
+
+== Text Interpolation
+
+[source, html]
+----
+<script setup>
+const msg = 'Hello World';
+</script>
+
+<template>
+  <h2>{{ msg }}</h2> <1>
+</template>
+----
+<1> Using the https://vuejs.org/guide/essentials/template-syntax.html#text-interpolation[text interpolation] syntax, a.k.a. mustache syntax, to replace the value of the `msg` variable
+
+.Text Interpolation
+image::Text Interpolation.png[role="thumb"]
+
+You can use JavaScript within the mustache:
+
+[source, html]
+----
+<script setup>
+const msg = 'Hello World';
+</script>
+
+<template>
+  <h2>{{ msg.toUpperCase() || 'Welcome' }}</h2>
+</template>
+----
+
+.with JavaScript
+image::Text Interpolation with JavaScript.png[role="thumb"]
+
+== Two-way Reactive Data Binding
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const reactiveMsg = ref('Hello World'); <1>
+</script>
+
+<template>
+  <h2>{{ reactiveMsg }}</h2>
+  <input v-model="reactiveMsg" /> <2>
+  <input v-model="reactiveMsg" /> <2>
+</template>
+----
+<1> The `reactiveMsg` variable is declared using `ref` which makes it https://vuejs.org/api/reactivity-core.htm#ref[reactive]. +
+The `reactiveMsg` variable is mutable and every time it is updated, all references are updated.
+<2> The https://vuejs.org/api/built-in-directives.html#v-model[`v-model`] directive creates a two-way binding between the `input` field and the `reactiveMsg` variable
+
+.Two-way Reactive Data Binding
+image::Two-way Reactive Data Binding.gif[role="thumb"]
+
+== List Rendering
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const books = ref([
+  { id: '978-0520318335', title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27' },
+  ...
+])
+</script>
+
+<template>
+  <ul>
+    <li v-for="book in books" :key="book.id">{{ book.title }}</li> <1> <2>
+  </ul>
+</template>
+----
+<1> The https://vuejs.org/guide/essentials/list#v-for[`v-for`] directive loops over an array and renders a list
+<2> The https://vuejs.org/api/built-in-special-attributes.html#key[`key` attribute] helps Vue.js identify which nodes have changed when the list is updated
+
+.List
+image::List.png[role="thumb"]
+
+`v-for` also works with objects:
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const booksObject = ref({
+  '978-0520318335': { title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27' },
+  ...
+})
+</script>
+
+<template>
+  <ul>
+    <li v-for="(value, key) in booksObject" :key="key">{{ value.title }}</li> <1>
+  </ul>
+</template>
+----
+<1> The same syntax as above can be used: `<li v-for="book in books" :key="book.title">{{ book.title }}</li>`
+
+== User Input
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const newBook = ref({ <3>
+  id: '',
+  title: '',
+  authors: [],
+  date: '',
+  kindleEdition: false
+})
+</script>
+
+<template>
+  <label>
+    ISBN: <input type="text" v-model.trim="newBook.id" placeholder="ISBN-13"/> <1> <2> <3>
+  </label>
+  <label>
+    Title: <input type="text" v-model="newBook.title"/>
+  </label>
+  <label>
+    Authors:
+    <select v-model="newBook.authors" multiple> <1>
+      <option value="Norman Finkelstein">Norman Finkelstein</option>
+      ...
+    </select>
+  </label>
+  <label>
+    Publishing Date: <input type="date" v-model="newBook.date"/>
+  </label>
+  <br/>
+  <label>
+    <input type="checkbox" v-model="newBook.kindleEdition"> <1>
+    Kindle Edition Available
+  </label>
+  New Book: {{ newBook }}
+</template>
+----
+<1> The https://vuejs.org/api/built-in-directives.html#v-model[`v-model`] directive can be used with `input`, `select` and `textarea`
+<2> A modifier ( `.lazy`, `.number` or `.trim` ) can be used for simple built-in pre-processing
+<3> You can bind to an object but the properties need to be defined
+
+.User Input
+image::User Input.png[role="thumb"]
+
+== React to Event
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const books = ref([
+  { id: '978-0520318335', title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27' },
+  ...
+])
+
+const newBook = ref({
+  id: '',
+  title: '',
+  authors: [],
+  date: '',
+  kindleEdition: false
+})
+</script>
+
+<template>
+  <label>
+    ISBN: <input type="text" v-model.trim="newBook.id" placeholder="ISBN-13"/>
+  </label>
+  <label>
+    Title: <input type="text" v-model="newBook.title"/>
+  </label>
+  <label>
+    Authors:
+    <select v-model="newBook.authors" multiple>
+      <option value="Norman Finkelstein">Norman Finkelstein</option>
+      ...
+    </select>
+  </label>
+  <label>
+    Publishing Date: <input type="date" v-model="newBook.date"/>
+  </label>
+  <button v-on:click="books.push(newBook)">Add Book</button> <1>
+  Book: {{ newBook }}
+  Books' names: {{ books.map(book => book.title) }}
+</template>
+----
+<1> The https://vuejs.org/api/built-in-directives.html#v-on[`v-on`] directive is used to attach an event listener to the button. +
+The `@` shorthand notation can be used instead, e.g. `@click`.
+
+.Event
+image::Event.gif[role="thumb"]
+
+== Encapsulation
+
+[source, html]
+----
+<script setup>
+import {ref} from "vue";
+
+const books = ref([
+  { id: '978-0520318335', title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27' },
+  ...
+])
+
+const newBook = ref({ id: '', title: '', authors: [], date: '', kindleEdition: false })
+
+const addBook = () => {
+  books.value.push(newBook.value) <3>
+  newBook.value = { id: '', title: '', authors: [], date: '', kindleEdition: false } <3>
+}
+</script>
+
+<template>
+	<form @submit.prevent="addBook"> <1> <2>
+	  <label>
+		ISBN: <input type="text" v-model.trim="newBook.id" placeholder="ISBN-13"/>
+	  </label>
+	  <label>
+		Title: <input type="text" v-model="newBook.title"/>
+	  </label>
+	  <label>
+		Authors:
+		<select v-model="newBook.authors" multiple>
+		  <option value="Norman Finkelstein">Norman Finkelstein</option>
+		  ...
+		</select>
+	  </label>
+	  <label>
+		Publishing Date: <input type="date" v-model="newBook.date"/>
+	  </label>
+	  <button>Add Book</button>
+	</form>
+  Book: {{ newBook }}
+  Books' names: {{ books.map(book => book.title) }}
+</template>
+----
+<1> Adding an event listener for the form's `submit` event. +
+The event listener calls a function defined in the `script` section.
+<2> Using the `.prevent` modifier to prevent the `form` element from submitting the form which is its default behaviour
+<3> Within the `script` section, reactive variables' values are read and updated using the `value` property. +
+This is not required in the `template` section.
+
+.Encapsulation
+image::Encapsulation.gif[role="thumb"]
+
+== Resources
+
+* https://vueschool.io/courses/vue-js-fundamentals-with-the-composition-api[Vue.js 3 Fundamentals with the Composition API]

@@ -1,9 +1,8 @@
 <!-- TOC -->
 * [Vue.js 3 Fundamentals with the Composition API](#vuejs-3-fundamentals-with-the-composition-api)
-  * [Pre-requisites](#pre-requisites)
   * [Setup](#setup)
-  * [IDE Setup](#ide-setup)
-  * [Project Setup](#project-setup)
+  * [Build and Run](#build-and-run)
+    * [Install Dependencies](#install-dependencies)
     * [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
     * [Compile and Minify for Production](#compile-and-minify-for-production)
 <!-- TOC -->
@@ -11,11 +10,6 @@
 # Vue.js 3 Fundamentals with the Composition API
 
 See [Vue.js 3 Fundamentals with the Composition API](https://vueschool.io/courses/vue-js-fundamentals-with-the-composition-api) and its accompanying [GitHub repository](https://github.com/vueschool/vuejs-3-fundamentals).
-
-## Pre-requisites
-
-* [Node.js](https://nodejs.org/en)  
-This will install [npm](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager) as the package manager
 
 ## Setup
 
@@ -58,7 +52,6 @@ This will generate the following structure:
 We can then delete everything under the `src` folder, except `App.vue` and `main.js`.  
 We should end up with the following structure:
 
-
 ```
 1-fundamentals
 ├── README.md
@@ -83,11 +76,9 @@ We can then delete the content of `App.vue` and only keep the structure:
 </template>
 ```
 
-## IDE Setup
+## Build and Run
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Project Setup
+### Install Dependencies
 
 ```sh
 npm install
