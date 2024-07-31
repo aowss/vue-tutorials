@@ -2,6 +2,7 @@
 :source-highlighter: highlightjs
 :imagesdir: res
 :icons: font
+:stylesheet: css/material-brown.css
 
 = `Vue.js` Fundamentals
 
@@ -258,6 +259,54 @@ This is not required in the `template` section.
 
 .Encapsulation
 image::Encapsulation.gif[role="thumb"]
+
+== Conditional
+
+[source, html]
+----
+<ul>
+    <template v-for="book in books"> <1>
+      <li v-if="Date.parse(book.date) < Date.now()" :key="book.id">{{ book.title }}</li>
+    </template>
+</ul>
+----
+<1> Using a wrapping `template` tag since `v-for` and `v-if` should not be used on the same element, as mentioned https://vuejs.org/guide/essentials/list..html#v-for-with-v-if[here],
+
+== Attribute Binding
+
+[source, html]
+----
+<ul>
+  <li v-for="book in books" :key="book.id"><a v-bind:href="`https://www.amazon.com/s?k=${book.title}`">{{ book.title }}</a></li>
+</ul>
+----
+<1> The https://vuejs.org/api/built-in-directives.html#v-bind[`v-bind`] directive is used to bind attributes. +
+The `:` shorthand notation can be used instead, e.g. `:href`.
+
+== Computed Properties
+
+[source, html]
+----
+<script setup>
+import {computed, ref} from "vue";
+
+const books = ref([
+  { id: '978-0520318335', title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27' },
+  ...
+])
+
+const booksCount = computed(() => books.value.length) <1>
+</script>
+
+<template>
+    <ul>
+        <li v-for="(book, index) in books" :key="book.id">{{ `${index + 1} / ${booksCount} : ${book.title}` }}</li>
+    </ul>
+</template>
+----
+<1> A https://vuejs.org/guide/essentials/computed.html#computed-properties[computed property] is defined to avoid repeating logic in different parts of the template and to make things more readable. +
+The `computed()` function expects to be passed a getter function, and the returned value is a computed `ref`. +
+**A computed property automatically tracks its reactive dependencies.**
 
 == Resources
 

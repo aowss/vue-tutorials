@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const msg = 'Hello World'
 
@@ -13,6 +13,8 @@ const books = ref([
   { id: '978-0679739883', title: 'The Question of Palestine', authors: ['Edward W. Said'], date: '1992-04-07' },
   { id: '978-1844676019', title: 'The Punishment of Gaza', authors: ['Gideon Levy'], date: '2010-05-17' }
 ])
+
+const booksCount = computed(() => books.value.length)
 
 const booksObject = ref({
   '978-0520318335': {title: 'Gaza: An Inquest into Its Martyrdom', authors: ['Norman Finkelstein'], date: '2021-07-27'},
@@ -172,6 +174,27 @@ const addBook = () => {
       <br/><br/>
       Books' names: {{ books.map(book => book.title) }}
       <br/><br/>
+    </li>
+    <li>
+      <p>Conditional</p>
+      <ul>
+        <template v-for="book in books">
+          <li v-if="Date.parse(book.date) < Date.now()" :key="book.id">{{ book.title }}</li>
+        </template>
+      </ul>
+    </li>
+    <li>
+      <p>Attribute Binding</p>
+      <ul>
+        <li v-for="book in books" :key="book.id"><a :href="`https://www.amazon.com/s?k=${book.title}`">{{ book.title }}</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <p>Computed Properties</p>
+      <ul>
+        <li v-for="(book, index) in books" :key="book.id">{{ `${index + 1} / ${booksCount} : ${book.title}` }}</li>
+      </ul>
     </li>
   </ul>
 </template>
